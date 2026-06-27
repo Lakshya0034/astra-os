@@ -1,9 +1,0 @@
-# Gemini/workspace temporary files
-.gemini/
-.agents/
-
-# IDE / System files
-.vscode/
-.idea/
-.DS_Store
-Thumbs.db
