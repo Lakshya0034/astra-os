@@ -5,7 +5,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>astra os</title>
-  <!-- Google Fonts for a futuristic look -->
+  <!-- Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link
@@ -20,7 +20,7 @@
 
 <body>
 
-  <!-- Futuristic Canvas Background -->
+  <!-- Background -->
   <canvas id="bg-canvas"></canvas>
 
   <div class="desktop-container">
@@ -33,7 +33,14 @@
           <span>ASTRA OS</span>
         </div>
         <div class="menu-item">System</div>
-        <div class="menu-item">Applications</div>
+        <div class="menu-item" id="app-dropdown-trigger" style="position: relative;">
+          Applications
+          <div class="app-dropdown" id="app-dropdown">
+            <div class="dropdown-item" id="dropdown-launch-tracker">Launch Tracker</div>
+            <div class="dropdown-item" id="dropdown-terminal">Terminal</div>
+            <div class="dropdown-item" id="dropdown-starmap">Star Map</div>
+          </div>
+        </div>
       </div>
 
       <div class="top-bar-right">
@@ -41,12 +48,75 @@
       </div>
     </header>
 
+    <!-- Desktop Shortcuts -->
+    <div class="desktop-shortcuts">
+      <div class="shortcut-icon" id="shortcut-launch-tracker">
+        <div class="shortcut-symbol launch-icon"></div>
+        <div class="shortcut-label">Missions</div>
+      </div>
+      <div class="shortcut-icon" id="shortcut-terminal">
+        <div class="shortcut-symbol terminal-icon"></div>
+        <div class="shortcut-label">Terminal</div>
+      </div>
+      <div class="shortcut-icon" id="shortcut-starmap">
+        <div class="shortcut-symbol starmap-icon"></div>
+        <div class="shortcut-label">Star Map</div>
+      </div>
+    </div>
+
+    <!-- Launch Tracker Window -->
+    <div class="window" id="launchtracker">
+      <div class="windowheader" id="launchtrackerheader">
+        <div class="window-title">LAUNCH TRACKER</div>
+        <div class="window-controls">
+          <button class="control-btn control-minimize" title="Minimize"></button>
+          <button class="control-btn control-maximize" title="Maximize"></button>
+          <button class="control-btn control-close" id="launchtrackerclose" title="Close"></button>
+        </div>
+      </div>
+      <div class="window-body" id="launchtrackerbody">
+        <!-- Live App Content Injected Here -->
+      </div>
+    </div>
+
+    <!-- Terminal Window -->
+    <div class="window" id="terminal">
+      <div class="windowheader" id="terminalheader">
+        <div class="window-title">TERMINAL</div>
+        <div class="window-controls">
+          <button class="control-btn control-minimize" title="Minimize"></button>
+          <button class="control-btn control-maximize" title="Maximize"></button>
+          <button class="control-btn control-close" id="terminalclose" title="Close"></button>
+        </div>
+      </div>
+      <div class="window-body" id="terminalbody" style="position: relative;">
+        <!-- Content Injected by terminal.js -->
+      </div>
+    </div>
+
+    <!-- Star Map Window -->
+    <div class="window" id="starmap">
+      <div class="windowheader" id="starmapheader">
+        <div class="window-title">STAR MAP EXPLORER</div>
+        <div class="window-controls">
+          <button class="control-btn control-minimize" title="Minimize"></button>
+          <button class="control-btn control-maximize" title="Maximize"></button>
+          <button class="control-btn control-close" id="starmapclose" title="Close"></button>
+        </div>
+      </div>
+      <div class="window-body" id="starmapbody">
+        <!-- Content Injected by star_map.js -->
+      </div>
+    </div>
+
   </div>
 
   <!-- Scripts -->
   <script src="js/system.js"></script>
   <script src="js/os.js"></script>
   <script src="js/apps/launch_tracker.js"></script>
+  <script src="js/apps/terminal.js"></script>
+  <script src="js/apps/star_map.js"></script>
 </body>
 
 </html>

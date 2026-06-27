@@ -102,3 +102,152 @@
   cursor: pointer;
   transition: color 0.2s ease;
 }
+
+/* App Launcher Dropdown */
+.app-dropdown {
+  display: none;
+  position: absolute;
+  top: 100%;
+  left: 0;
+  margin-top: 5px;
+  min-width: 160px;
+  background: rgba(10, 13, 29, 0.95);
+  backdrop-filter: blur(12px);
+  border: 1px solid var(--glass-border);
+  border-radius: 6px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5);
+  z-index: 500;
+  overflow: hidden;
+  padding: 5px 0;
+}
+
+.app-dropdown.show {
+  display: block;
+  animation: dropdownFade 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@keyframes dropdownFade {
+  from { opacity: 0; transform: translateY(-5px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.dropdown-item {
+  color: var(--text-muted);
+  padding: 8px 16px;
+  font-family: var(--font-body);
+  font-size: 13px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  border-left: 2px solid transparent;
+}
+
+.dropdown-item:hover {
+  color: var(--accent-cyan);
+  background: rgba(0, 240, 255, 0.06);
+  border-left-color: var(--accent-cyan);
+  text-shadow: 0 0 8px rgba(0, 240, 255, 0.3);
+}
+
+/* Desktop Shortcuts */
+.desktop-shortcuts {
+  position: absolute;
+  top: 60px;
+  left: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  z-index: 10;
+}
+
+.shortcut-icon {
+  width: 76px;
+  height: 76px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background: rgba(255, 255, 255, 0.01);
+  border: 1px solid rgba(255, 255, 255, 0.02);
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.25s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.shortcut-icon:hover {
+  background: rgba(0, 240, 255, 0.05);
+  border-color: rgba(0, 240, 255, 0.2);
+  box-shadow: 0 0 15px rgba(0, 240, 255, 0.1);
+  transform: translateY(-2px);
+}
+
+.shortcut-icon.selected {
+  background: rgba(0, 240, 255, 0.08);
+  border-color: rgba(0, 240, 255, 0.4);
+  box-shadow: 0 0 15px rgba(0, 240, 255, 0.15);
+}
+
+.shortcut-symbol {
+  width: 28px;
+  height: 28px;
+  margin-bottom: 6px;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.shortcut-label {
+  font-family: var(--font-body);
+  font-size: 11px;
+  font-weight: 500;
+  color: var(--text-main);
+  text-shadow: 0 1px 4px rgba(0, 0, 0, 0.8);
+  letter-spacing: 0.5px;
+  text-align: center;
+}
+
+/* Custom CSS Icons for Desktop Shortcuts */
+.launch-icon {
+  background: var(--accent-violet);
+  clip-path: polygon(50% 0%, 100% 38%, 82% 100%, 18% 100%, 0% 38%);
+  box-shadow: 0 0 10px rgba(112, 0, 255, 0.5);
+}
+
+.terminal-icon {
+  background: transparent;
+  border: 2px solid var(--accent-cyan);
+  border-radius: 4px;
+  box-shadow: 0 0 8px rgba(0, 240, 255, 0.3);
+}
+
+.terminal-icon::before {
+  content: '>';
+  font-family: monospace;
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--accent-cyan);
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.starmap-icon {
+  background: transparent;
+  border: 1.5px dashed var(--accent-magenta);
+  border-radius: 50%;
+  box-shadow: 0 0 8px rgba(255, 0, 127, 0.3);
+}
+
+.starmap-icon::before {
+  content: '';
+  position: absolute;
+  width: 8px;
+  height: 8px;
+  background: var(--accent-magenta);
+  border-radius: 50%;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  box-shadow: 0 0 6px var(--accent-magenta);
+}

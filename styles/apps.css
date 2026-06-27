@@ -119,3 +119,307 @@
   border-color: rgba(255, 0, 127, 0.2);
   background: rgba(255, 0, 127, 0.05);
 }
+
+/* ==========================================================================
+   Terminal Application Styles
+   ========================================================================== */
+.terminal-container {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  background: rgba(5, 7, 15, 0.9);
+  padding: 10px;
+  font-family: 'Courier New', Courier, monospace;
+  font-size: 13px;
+  color: #33ff33;
+  text-shadow: 0 0 4px rgba(51, 255, 51, 0.35);
+  box-sizing: border-box;
+}
+
+.terminal-output {
+  flex: 1;
+  overflow-y: auto;
+  margin-bottom: 10px;
+}
+
+.terminal-line {
+  line-height: 1.4;
+  margin-bottom: 4px;
+  word-break: break-all;
+}
+
+.terminal-line.system-line {
+  color: var(--accent-cyan);
+  text-shadow: 0 0 4px rgba(0, 240, 255, 0.4);
+}
+
+.terminal-line.warning-line {
+  color: var(--accent-magenta);
+  text-shadow: 0 0 4px rgba(255, 0, 127, 0.4);
+}
+
+.terminal-line.error-line {
+  color: #ff3333;
+  text-shadow: 0 0 4px rgba(255, 51, 51, 0.4);
+}
+
+.terminal-line.input-echo {
+  color: var(--text-muted);
+}
+
+.terminal-input-line {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.terminal-prompt {
+  color: var(--accent-cyan);
+  white-space: nowrap;
+}
+
+.terminal-input-field {
+  flex: 1;
+  background: transparent;
+  border: none;
+  outline: none;
+  font-family: inherit;
+  font-size: inherit;
+  color: #33ff33;
+  text-shadow: 0 0 4px rgba(51, 255, 51, 0.35);
+  caret-color: #33ff33;
+}
+
+/* ==========================================================================
+   Star Map / Planetary System Explorer Styles
+   ========================================================================== */
+.starmap-container {
+  display: flex;
+  height: 100%;
+  box-sizing: border-box;
+  overflow: hidden;
+}
+
+.starmap-visual {
+  flex: 1.4;
+  position: relative;
+  border-right: 1px solid var(--glass-border);
+  background: radial-gradient(circle at center, rgba(110, 0, 255, 0.05) 0%, transparent 70%);
+}
+
+#starmap-canvas {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+.visual-overlay-text {
+  position: absolute;
+  top: 12px;
+  left: 15px;
+  font-family: var(--font-display);
+  font-size: 11px;
+  letter-spacing: 2px;
+  color: var(--accent-cyan);
+  opacity: 0.6;
+  pointer-events: none;
+}
+
+.starmap-telemetry {
+  flex: 1;
+  padding: 15px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  background: rgba(10, 13, 29, 0.4);
+  overflow-y: auto;
+}
+
+.telemetry-header {
+  font-family: var(--font-display);
+  font-size: 12px;
+  color: var(--accent-cyan);
+  border-bottom: 1px solid var(--glass-border);
+  padding-bottom: 6px;
+  letter-spacing: 1px;
+}
+
+/* Search Box */
+.search-container {
+  position: relative;
+}
+
+.starmap-search {
+  width: 100%;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid var(--glass-border);
+  border-radius: 4px;
+  padding: 6px 10px;
+  font-family: var(--font-body);
+  font-size: 11px;
+  color: var(--text-main);
+  outline: none;
+  transition: border-color 0.2s ease;
+}
+
+.starmap-search:focus {
+  border-color: var(--accent-cyan);
+}
+
+.search-results {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  width: 100%;
+  background: rgba(10, 13, 29, 0.95);
+  border: 1px solid var(--glass-border);
+  border-top: none;
+  border-radius: 0 0 4px 4px;
+  z-index: 100;
+  display: none;
+  max-height: 120px;
+  overflow-y: auto;
+}
+
+.search-item {
+  padding: 6px 10px;
+  font-size: 11px;
+  color: var(--text-muted);
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.search-item:hover {
+  color: var(--accent-cyan);
+  background: rgba(0, 240, 255, 0.06);
+}
+
+/* Telemetry Details */
+.telemetry-body {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.planet-name-title {
+  font-family: var(--font-display);
+  font-size: 20px;
+  font-weight: 900;
+  letter-spacing: 1.5px;
+  text-shadow: 0 0 10px rgba(255, 255, 255, 0.2);
+}
+
+.planet-stat-grid {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 8px 12px;
+  font-size: 11px;
+  border-bottom: 1px dashed rgba(255, 255, 255, 0.08);
+  padding-bottom: 12px;
+}
+
+.stat-label {
+  color: var(--text-muted);
+  font-weight: 600;
+}
+
+.stat-val {
+  color: var(--text-main);
+  text-align: right;
+}
+
+.lore-box {
+  background: rgba(255, 255, 255, 0.02);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  border-radius: 4px;
+  padding: 8px 10px;
+}
+
+.lore-header {
+  font-family: var(--font-display);
+  font-size: 9px;
+  color: var(--accent-magenta);
+  margin-bottom: 4px;
+  letter-spacing: 1px;
+}
+
+.lore-content {
+  font-size: 11px;
+  line-height: 1.4;
+  color: var(--text-muted);
+}
+
+.scan-status-indicator {
+  font-family: var(--font-display);
+  font-size: 10px;
+  padding: 4px 8px;
+  border-radius: 4px;
+  text-align: center;
+  border: 1px solid transparent;
+}
+
+.scan-status-indicator.unscanned {
+  color: var(--accent-magenta);
+  border-color: rgba(255, 0, 127, 0.2);
+  background: rgba(255, 0, 127, 0.04);
+}
+
+.scan-status-indicator.completed {
+  color: #00ff66;
+  border-color: rgba(0, 255, 102, 0.2);
+  background: rgba(0, 255, 102, 0.04);
+}
+
+.scanner-btn {
+  background: transparent;
+  border: 1px solid var(--accent-cyan);
+  color: var(--accent-cyan);
+  border-radius: 4px;
+  padding: 8px;
+  font-family: var(--font-display);
+  font-size: 11px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  letter-spacing: 0.5px;
+}
+
+.scanner-btn:hover:not(:disabled) {
+  background: rgba(0, 240, 255, 0.08);
+  box-shadow: 0 0 10px rgba(0, 240, 255, 0.2);
+}
+
+.scanner-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  border-color: var(--text-muted);
+  color: var(--text-muted);
+}
+
+.scanner-status-bar {
+  height: 14px;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid var(--glass-border);
+  border-radius: 3px;
+  position: relative;
+  overflow: hidden;
+}
+
+.scanner-progress {
+  height: 100%;
+  background: linear-gradient(90deg, var(--accent-magenta), var(--accent-cyan));
+  width: 0%;
+}
+
+.scanner-pct {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-family: var(--font-display);
+  font-size: 9px;
+  color: #fff;
+  font-weight: bold;
+}
+

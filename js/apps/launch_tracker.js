@@ -2,151 +2,133 @@
 
 class LaunchTrackerApp {
   static init() {
-    this.launches = [
-      {
-        rocket: "Starship (IFT-5)",
-        mission: "Starship Flight 5 Test",
-        site: "Starbase, Boca Chica, TX",
-        countdown: "01d : 14h : 05m",
-        status: "GO FOR LAUNCH",
-        statusCode: "status-go"
-      },
-      {
-        rocket: "Falcon 9",
-        mission: "Crew-9 Astronaut Launch",
-        site: "LC-39A, Kennedy Space Center",
-        countdown: "05d : 08h : 12m",
-        status: "GO FOR LAUNCH",
-        statusCode: "status-go"
-      },
-      {
-        rocket: "SLS Block 1",
-        mission: "Artemis II Crewed Lunar Orbit",
-        site: "LC-39B, Kennedy Space Center",
-        countdown: "94d : 11h : 45m",
-        status: "STANDBY",
-        statusCode: "status-standby"
-      },
-      {
-        rocket: "Falcon Heavy",
-        mission: "Europa Clipper Astrobiology Probe",
-        site: "LC-39A, Kennedy Space Center",
-        countdown: "HOLD",
-        status: "SYSTEM CHECK",
-        statusCode: "status-hold"
-      }
-    ];
+    this.launches = [];
+    this.isLoading = false;
+    this.timerInterval = null;
   }
 
-  static open() {
-    let win = document.getElementById('win-launch-tracker');
-    if (win) {
-      this.bringToFront(win);
-      return;
-    }
+  static async open() {
+    // Open the static window using the global function
+    openWindow('launchtracker');
 
-    win = document.createElement('div');
-    win.id = 'win-launch-tracker';
-    win.className = 'window active-window';
-    win.style.left = '120px';
-    win.style.top = '100px';
+    const body = document.getElementById('launchtrackerbody');
+    if (!body) return;
 
-    win.innerHTML = `
-      <div class="window-header">
-        <div class="window-title">LAUNCH TRACKER</div>
-        <div class="window-controls">
-          <button class="control-btn control-minimize" title="Minimize"></button>
-          <button class="control-btn control-maximize" title="Maximize"></button>
-          <button class="control-btn control-close" title="Close"></button>
-        </div>
-      </div>
-      <div class="window-body">
-        <div class="launch-tracker">
-          <div class="tracker-title">UPCOMING SPACE MISSIONS</div>
-          <div class="launch-cards-container">
-            ${this.launches.map(launch => `
-              <div class="launch-card ${launch.statusCode}">
-                <div class="launch-info-left">
-                  <div class="launch-rocket">${launch.rocket}</div>
-                  <div class="launch-mission">${launch.mission}</div>
-                  <div class="launch-site">${launch.site}</div>
-                </div>
-                <div class="launch-info-right">
-                  <div class="launch-countdown">${launch.countdown}</div>
-                  <div class="launch-status">${launch.status}</div>
-                </div>
-              </div>
-            `).join('')}
+    // Inject initial tracker container & loading state
+    body.innerHTML = `
+      <div class="launch-tracker">
+        <div class="tracker-title">UPCOMING SPACE MISSIONS</div>
+        <div class="launch-cards-container" id="tracker-cards">
+          <div style="text-align: center; color: var(--accent-cyan); font-family: var(--font-display); padding: 40px 0; font-size: 12px; letter-spacing: 2px; animation: pulse 1.5s infinite;">
+            CONNECTING TO MISSION CONTROL...
           </div>
         </div>
       </div>
     `;
 
-    document.querySelector('.desktop-container').appendChild(win);
-    this.makeDraggable(win);
-    this.setupWindowEvents(win);
-    this.bringToFront(win);
+    // Fetch and populate data
+    await this.loadLaunchData(body);
   }
 
-  static setupWindowEvents(win) {
-    const closeBtn = win.querySelector('.control-close');
-    closeBtn.addEventListener('click', () => win.remove());
+  static async loadLaunchData(body) {
+    const container = body.querySelector('#tracker-cards');
+    if (!container) return;
 
-    win.addEventListener('mousedown', () => this.bringToFront(win));
-  }
-
-  static makeDraggable(win) {
-    const header = win.querySelector('.window-header');
-    let isDragging = false;
-    let startX, startY;
-    let initialX, initialY;
-
-    header.addEventListener('mousedown', (e) => {
-      // Don't drag if clicking buttons
-      if (e.target.classList.contains('control-btn')) return;
-
-      isDragging = true;
-      startX = e.clientX;
-      startY = e.clientY;
+    try {
+      this.isLoading = true;
+      // Fetch from live production API first
+      let response;
+      try {
+        response = await fetch('https://ll.thespacedevs.com/2.2.0/launch/upcoming/?limit=5');
+        if (!response.ok) throw new Error('Production rate limit or error');
+      } catch (prodErr) {
+        console.warn('Production API failed, falling back to developer sandbox:', prodErr);
+        response = await fetch('https://lldev.thespacedevs.com/2.2.0/launch/upcoming/?limit=5');
+      }
       
-      const rect = win.getBoundingClientRect();
-      initialX = rect.left;
-      initialY = rect.top;
+      if (!response.ok) throw new Error('Both APIs failed');
+      
+      const data = await response.json();
+      this.launches = (data.results || []).map(item => {
+        const statusName = item.status ? item.status.name.toUpperCase() : 'UNKNOWN';
+        let statusCode = 'status-standby';
+        if (statusName.includes('GO')) statusCode = 'status-go';
+        if (statusName.includes('HOLD') || statusName.includes('DELAY')) statusCode = 'status-hold';
 
-      document.addEventListener('mousemove', onMouseMove);
-      document.addEventListener('mouseup', onMouseUp);
-    });
+        return {
+          rocket: item.rocket?.configuration?.name || 'Unknown Rocket',
+          mission: item.mission?.name || 'Classified Payload',
+          site: item.pad?.location?.name || 'Unknown Pad',
+          net: item.net,
+          status: statusName,
+          statusCode: statusCode
+        };
+      });
 
-    const onMouseMove = (e) => {
-      if (!isDragging) return;
-      const dx = e.clientX - startX;
-      const dy = e.clientY - startY;
+      if (this.launches.length === 0) {
+        container.innerHTML = `<div style="text-align: center; color: var(--text-muted); font-size: 12px; padding: 20px;">NO UPCOMING LAUNCHES FOUND</div>`;
+        return;
+      }
 
-      // Restrict dragging slightly inside boundaries if wanted, or basic position updates:
-      const newX = initialX + dx;
-      const newY = initialY + dy;
+      this.renderCards(container);
+      this.startCountdownTicker(body);
 
-      win.style.left = `${newX}px`;
-      win.style.top = `${newY}px`;
-    };
-
-    const onMouseUp = () => {
-      isDragging = false;
-      document.removeEventListener('mousemove', onMouseMove);
-      document.removeEventListener('mouseup', onMouseUp);
-    };
+    } catch (err) {
+      console.error(err);
+      container.innerHTML = `
+        <div style="text-align: center; color: var(--accent-magenta); font-size: 11px; padding: 20px; border: 1px dashed rgba(255,0,127,0.3); border-radius: 4px;">
+          CONNECTION FAILED. TELEMETRY OFFLINE.
+        </div>
+      `;
+    } finally {
+      this.isLoading = false;
+    }
   }
 
-  static bringToFront(win) {
-    // Deactivate other windows
-    document.querySelectorAll('.window').forEach(w => {
-      w.classList.remove('active-window');
-      w.style.zIndex = '999';
-    });
-    
-    // Activate this window
-    win.classList.add('active-window');
-    win.style.zIndex = '1000';
+  static renderCards(container) {
+    container.innerHTML = this.launches.map((launch, idx) => `
+      <div class="launch-card ${launch.statusCode}" data-index="${idx}">
+        <div class="launch-info-left">
+          <div class="launch-rocket">${launch.rocket}</div>
+          <div class="launch-mission">${launch.mission}</div>
+          <div class="launch-site">${launch.site}</div>
+        </div>
+        <div class="launch-info-right">
+          <div class="launch-countdown" data-net="${launch.net}">Calculating...</div>
+          <div class="launch-status">${launch.status}</div>
+        </div>
+      </div>
+    `).join('');
+  }
+
+  static startCountdownTicker(body) {
+    if (this.timerInterval) {
+      clearInterval(this.timerInterval);
+    }
+
+    const updateCountdowns = () => {
+      const countdownElements = body.querySelectorAll('.launch-countdown');
+      countdownElements.forEach(el => {
+        const netTime = el.getAttribute('data-net');
+        if (!netTime) return;
+
+        const diff = new Date(netTime) - new Date();
+        if (diff <= 0) {
+          el.textContent = "LIFTOFF";
+          return;
+        }
+
+        const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+        const hours = Math.floor((diff / (1000 * 60 * 60)) % 24);
+        const mins = Math.floor((diff / (1000 * 60)) % 60);
+        const secs = Math.floor((diff / 1000) % 60);
+
+        el.textContent = `${days}d : ${String(hours).padStart(2, '0')}h : ${String(mins).padStart(2, '0')}m : ${String(secs).padStart(2, '0')}s`;
+      });
+    };
+
+    updateCountdowns();
+    this.timerInterval = setInterval(updateCountdowns, 1000);
   }
 }
 

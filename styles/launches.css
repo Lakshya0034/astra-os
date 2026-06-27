@@ -1,0 +1,30 @@
+.nav-launches {
+  display: flex;
+  background-color: #251862;
+  padding: 10px 20px;
+}
+
+.nav-launches-inner {
+    padding-top: 20 px;
+    padding-bottom:20 px;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.nav-launches-left {
+    display:flex;
+    align-items:left;
+    gap:15px;
+}
+
+.nav-launches-title {
+    font-size:x-large;
+    color:darkturquoise;
+}
+
+.nav-launches-right {
+    display:flex;
+    align-items:right;
+    gap:15px;
+}
+
