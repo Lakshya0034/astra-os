@@ -131,11 +131,128 @@ function initializeWindow(id) {
   }
 }
 
+// NASA APOD Background Loader
+async function loadNasaApod() {
+  const bgDiv = document.getElementById('desktop-bg');
+  const infoBtn = document.getElementById('apod-info-btn');
+  const infoCard = document.getElementById('apod-info-card');
+  const titleEl = document.getElementById('apod-title');
+  const dateEl = document.getElementById('apod-date');
+  const explanationEl = document.getElementById('apod-explanation');
+  const copyrightEl = document.getElementById('apod-copyright');
+
+  if (!bgDiv) return;
+
+  // 1. Try to load cached data instantly
+  const cachedApod = localStorage.getItem('nasa_apod_data');
+  if (cachedApod) {
+    try {
+      const data = JSON.parse(cachedApod);
+      applyApodData(data, bgDiv, infoBtn, titleEl, dateEl, explanationEl, copyrightEl);
+    } catch (e) {
+      console.error('Failed to parse cached APOD', e);
+    }
+  }
+
+  // 2. Fetch the latest from NASA in the background
+  try {
+    const response = await fetch('https://api.nasa.gov/planetary/apod?api_key=DEMO_KEY');
+    if (!response.ok) throw new Error('Failed to fetch APOD');
+    const data = await response.json();
+
+    if (data.media_type === 'image') {
+      const imgUrl = data.url; // Use data.url (web-optimized) instead of hdurl for much faster loading
+
+      // Update cache
+      localStorage.setItem('nasa_apod_data', JSON.stringify(data));
+
+      // If the displayed background does not match the newly fetched URL, preload and apply
+      const currentBg = bgDiv.style.backgroundImage;
+      if (!currentBg || !currentBg.includes(imgUrl)) {
+        const tempImg = new Image();
+        tempImg.src = imgUrl;
+        tempImg.onload = () => {
+          applyApodData(data, bgDiv, infoBtn, titleEl, dateEl, explanationEl, copyrightEl);
+        };
+      }
+    } else if (!cachedApod) {
+      loadFallbackBackground();
+    }
+  } catch (error) {
+    console.error('Error fetching NASA APOD:', error);
+    if (!cachedApod) {
+      loadFallbackBackground();
+    }
+  }
+}
+
+function applyApodData(data, bgDiv, infoBtn, titleEl, dateEl, explanationEl, copyrightEl) {
+  const imgUrl = data.url;
+  bgDiv.style.backgroundImage = `url('${imgUrl}')`;
+  
+  if (titleEl) titleEl.textContent = data.title;
+  if (dateEl) dateEl.textContent = new Date(data.date).toLocaleDateString('en-US', {
+    year: 'numeric',
+    month: 'long',
+    day: 'numeric'
+  });
+  if (explanationEl) explanationEl.textContent = data.explanation;
+  if (copyrightEl) {
+    copyrightEl.textContent = data.copyright ? `© ${data.copyright}` : '';
+    copyrightEl.style.display = data.copyright ? 'block' : 'none';
+  }
+
+  if (infoBtn) infoBtn.style.display = 'flex';
+}
+
+function loadFallbackBackground() {
+  const bgDiv = document.getElementById('desktop-bg');
+  if (bgDiv) {
+    // Beautiful space nebula image from Unsplash as fallback
+    bgDiv.style.backgroundImage = `url('https://images.unsplash.com/photo-1462331940025-496dfbfc7564?q=80&w=2048')`;
+  }
+}
+
 document.addEventListener('DOMContentLoaded', () => {
   // Initialize Background
   if (window.System && window.System.initBackground) {
     window.System.initBackground('bg-canvas');
   }
+
+  // Load NASA APOD Desktop Background
+  loadNasaApod();
+
+  // APOD Info Card event listeners
+  const infoBtn = document.getElementById('apod-info-btn');
+  const infoCard = document.getElementById('apod-info-card');
+  const closeBtn = document.getElementById('apod-close-btn');
+
+  if (infoBtn && infoCard) {
+    infoBtn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      infoCard.classList.toggle('show');
+      if (infoCard.classList.contains('show')) {
+        biggestIndex++;
+        infoCard.style.zIndex = biggestIndex;
+      }
+    });
+  }
+
+  if (closeBtn && infoCard) {
+    closeBtn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      infoCard.classList.remove('show');
+    });
+  }
+
+  // Close info card if user clicks elsewhere
+  document.addEventListener('click', (e) => {
+    if (infoCard && infoCard.classList.contains('show')) {
+      if (!infoCard.contains(e.target) && e.target !== infoBtn) {
+        infoCard.classList.remove('show');
+      }
+    }
+  });
 
   // Clock Update
   const clockElement = document.getElementById('system-clock');

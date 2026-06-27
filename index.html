@@ -21,6 +21,7 @@
 <body>
 
   <!-- Background -->
+  <div id="desktop-bg"></div>
   <canvas id="bg-canvas"></canvas>
 
   <div class="desktop-container">
@@ -32,7 +33,6 @@
           <div class="brand-icon"></div>
           <span>ASTRA OS</span>
         </div>
-        <div class="menu-item">System</div>
         <div class="menu-item" id="app-dropdown-trigger" style="position: relative;">
           Applications
           <div class="app-dropdown" id="app-dropdown">
@@ -44,6 +44,9 @@
       </div>
 
       <div class="top-bar-right">
+        <div class="apod-info-btn" id="apod-info-btn" style="display: none;" title="NASA Astronomy Picture of the Day Info">
+          <span class="info-icon">ⓘ</span> NASA APOD
+        </div>
         <div class="system-clock" id="system-clock">--:--:--</div>
       </div>
     </header>
@@ -106,6 +109,20 @@
       </div>
       <div class="window-body" id="starmapbody">
         <!-- Content Injected by star_map.js -->
+      </div>
+    </div>
+    
+    <!-- APOD Info Card -->
+    <div class="apod-info-card" id="apod-info-card">
+      <div class="apod-card-header">
+        <h3>ASTRONOMY PICTURE OF THE DAY</h3>
+        <button class="apod-close-btn" id="apod-close-btn" title="Close Info">&times;</button>
+      </div>
+      <div class="apod-card-body">
+        <h4 id="apod-title"></h4>
+        <p class="apod-date" id="apod-date"></p>
+        <div class="apod-explanation" id="apod-explanation"></div>
+        <p class="apod-copyright" id="apod-copyright"></p>
       </div>
     </div>
 

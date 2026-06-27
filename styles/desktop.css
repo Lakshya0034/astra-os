@@ -251,3 +251,178 @@
   transform: translate(-50%, -50%);
   box-shadow: 0 0 6px var(--accent-magenta);
 }
+
+/* NASA APOD Background */
+#desktop-bg {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: -2;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  transition: background-image 1s ease-in-out;
+}
+
+#desktop-bg::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(7, 9, 19, 0.45); /* keep icons legible */
+  backdrop-filter: saturate(1.2);
+}
+
+/* APOD Info button in Top Bar */
+.apod-info-btn {
+  font-family: var(--font-body);
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--text-muted);
+  background: rgba(255, 255, 255, 0.03);
+  padding: 4px 10px;
+  border-radius: 20px;
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  transition: all 0.3s ease;
+  height: 24px;
+}
+
+.apod-info-btn:hover {
+  color: var(--accent-cyan);
+  background: rgba(0, 240, 255, 0.08);
+  border-color: rgba(0, 240, 255, 0.2);
+  box-shadow: 0 0 10px rgba(0, 240, 255, 0.25);
+}
+
+.apod-info-btn .info-icon {
+  font-size: 13px;
+  margin-top: -1px;
+}
+
+/* APOD Info Card */
+.apod-info-card {
+  position: absolute;
+  right: 20px;
+  top: 50px;
+  width: 340px;
+  max-height: 480px;
+  background: var(--glass-bg);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid var(--glass-border);
+  border-radius: 8px;
+  box-shadow: var(--glass-shadow);
+  z-index: 1000;
+  display: none;
+  flex-direction: column;
+  color: var(--text-main);
+  font-family: var(--font-body);
+  animation: apodFadeIn 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  overflow: hidden;
+}
+
+.apod-info-card.show {
+  display: flex;
+}
+
+.apod-card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 16px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.apod-card-header h3 {
+  font-family: var(--font-display);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 1px;
+  color: var(--accent-cyan);
+}
+
+.apod-close-btn {
+  background: none;
+  border: none;
+  color: var(--text-muted);
+  font-size: 20px;
+  cursor: pointer;
+  transition: color 0.2s;
+  line-height: 1;
+}
+
+.apod-close-btn:hover {
+  color: var(--accent-magenta);
+}
+
+.apod-card-body {
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  font-size: 13px;
+  line-height: 1.5;
+  overflow-y: auto;
+}
+
+#apod-title {
+  font-family: var(--font-display);
+  font-size: 14px;
+  color: var(--text-main);
+  line-height: 1.3;
+}
+
+.apod-date {
+  font-size: 11px;
+  color: var(--text-muted);
+  margin-top: -6px;
+}
+
+.apod-explanation {
+  max-height: 240px;
+  overflow-y: auto;
+  padding-right: 6px;
+  color: #cdd6e4;
+  text-align: left;
+  border-top: 1px dashed rgba(255, 255, 255, 0.05);
+  padding-top: 10px;
+}
+
+/* Custom Scrollbar for Explanation */
+.apod-explanation::-webkit-scrollbar {
+  width: 4px;
+}
+.apod-explanation::-webkit-scrollbar-track {
+  background: rgba(255, 255, 255, 0.01);
+}
+.apod-explanation::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 2px;
+}
+
+.apod-copyright {
+  font-size: 11px;
+  color: var(--text-muted);
+  font-style: italic;
+  border-top: 1px solid rgba(255, 255, 255, 0.05);
+  padding-top: 8px;
+}
+
+@keyframes apodFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
