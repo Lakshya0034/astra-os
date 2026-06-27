@@ -26,4 +26,23 @@ document.addEventListener('DOMContentLoaded', () => {
     updateClock();
     setInterval(updateClock, 1000);
   }
+
+  // App Launcher Triggers
+  const menuItems = document.querySelectorAll('.menu-item');
+  menuItems.forEach(item => {
+    if (item.textContent.trim() === 'Applications') {
+      item.addEventListener('click', () => {
+        if (window.LaunchTrackerApp) {
+          window.LaunchTrackerApp.open();
+        }
+      });
+    }
+  });
+
+  // Open Launch Tracker by default on startup
+  setTimeout(() => {
+    if (window.LaunchTrackerApp) {
+      window.LaunchTrackerApp.open();
+    }
+  }, 500);
 });

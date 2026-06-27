@@ -1,0 +1,121 @@
+/* Launch Tracker App Styles */
+
+.launch-tracker {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  color: var(--text-main);
+  font-family: var(--font-body);
+}
+
+.tracker-title {
+  font-family: var(--font-display);
+  font-size: 14px;
+  color: var(--accent-cyan);
+  text-shadow: 0 0 8px rgba(0, 240, 255, 0.3);
+  margin-bottom: 5px;
+  border-left: 2px solid var(--accent-cyan);
+  padding-left: 8px;
+}
+
+.launch-cards-container {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.launch-card {
+  background: rgba(255, 255, 255, 0.02);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  border-radius: 6px;
+  padding: 12px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  transition: background 0.2s ease, border-color 0.2s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.launch-card::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0;
+  height: 100%;
+  width: 3px;
+  background: var(--accent-violet);
+}
+
+.launch-card.status-go::before {
+  background: #00ff66;
+}
+
+.launch-card.status-hold::before {
+  background: var(--accent-magenta);
+}
+
+.launch-card:hover {
+  background: rgba(255, 255, 255, 0.04);
+  border-color: rgba(0, 240, 255, 0.15);
+}
+
+.launch-info-left {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.launch-rocket {
+  font-family: var(--font-display);
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--text-main);
+}
+
+.launch-mission {
+  font-size: 12px;
+  color: var(--text-muted);
+}
+
+.launch-site {
+  font-size: 11px;
+  color: var(--text-muted);
+  opacity: 0.8;
+}
+
+.launch-info-right {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 4px;
+}
+
+.launch-countdown {
+  font-family: var(--font-display);
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--accent-cyan);
+}
+
+.launch-status {
+  font-size: 10px;
+  text-transform: uppercase;
+  padding: 2px 6px;
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 4px;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  letter-spacing: 0.5px;
+}
+
+.status-go .launch-status {
+  color: #00ff66;
+  border-color: rgba(0, 255, 102, 0.2);
+  background: rgba(0, 255, 102, 0.05);
+}
+
+.status-hold .launch-status {
+  color: var(--accent-magenta);
+  border-color: rgba(255, 0, 127, 0.2);
+  background: rgba(255, 0, 127, 0.05);
+}

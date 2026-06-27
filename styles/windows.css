@@ -1,0 +1,89 @@
+.window {
+  position: absolute;
+  top: 15%;
+  left: 20%;
+  width: 480px;
+  height: 380px;
+  background: var(--glass-bg);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid var(--glass-border);
+  box-shadow: var(--glass-shadow), 0 0 20px rgba(0, 240, 255, 0.05);
+  border-radius: 8px;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  z-index: 1000;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.window.active-window {
+  border-color: rgba(0, 240, 255, 0.4);
+  box-shadow: var(--glass-shadow), 0 0 30px rgba(0, 240, 255, 0.15);
+}
+
+.window-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: 36px;
+  padding: 0 15px;
+  background: rgba(10, 13, 29, 0.8);
+  border-bottom: 1px solid var(--glass-border);
+  cursor: grab;
+  user-select: none;
+}
+
+.window-header:active {
+  cursor: grabbing;
+}
+
+.window-title {
+  font-family: var(--font-display);
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--text-main);
+  letter-spacing: 1px;
+  text-transform: uppercase;
+}
+
+.window-controls {
+  display: flex;
+  gap: 8px;
+}
+
+.control-btn {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  border: none;
+  cursor: pointer;
+  background: rgba(255, 255, 255, 0.15);
+  transition: filter 0.2s ease, background-color 0.2s ease;
+}
+
+.control-btn:hover {
+  filter: brightness(1.2);
+}
+
+.control-close {
+  background: var(--accent-magenta);
+  box-shadow: 0 0 6px var(--accent-magenta);
+}
+
+.control-minimize {
+  background: #ffaa00;
+  box-shadow: 0 0 6px #ffaa00;
+}
+
+.control-maximize {
+  background: #00ff66;
+  box-shadow: 0 0 6px #00ff66;
+}
+
+.window-body {
+  flex: 1;
+  overflow-y: auto;
+  padding: 15px;
+  background: rgba(7, 9, 19, 0.4);
+}
