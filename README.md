@@ -25,4 +25,15 @@ Astra OS is an immersive web-based os environment inspired by my love for the co
 
 ---
 
+## future plans
+
+* 🚀 Add more intergrations for ease of use and functionality.
+    * add more functionality to the app( display launches by rocket, launchpads and more)
+
+* 🎨Make it more user friendly.
+
+    * Add more intuitive drag and drop features. 
+    * Give users more control over settings, layout, and customization options.
+    
+    
 
