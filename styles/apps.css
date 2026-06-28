@@ -12,7 +12,6 @@
   font-family: var(--font-display);
   font-size: 14px;
   color: var(--accent-cyan);
-  text-shadow: 0 0 8px rgba(0, 240, 255, 0.3);
   margin-bottom: 5px;
   border-left: 2px solid var(--accent-cyan);
   padding-left: 8px;
@@ -132,7 +131,6 @@
   font-family: 'Courier New', Courier, monospace;
   font-size: 13px;
   color: #33ff33;
-  text-shadow: 0 0 4px rgba(51, 255, 51, 0.35);
   box-sizing: border-box;
 }
 
@@ -150,17 +148,14 @@
 
 .terminal-line.system-line {
   color: var(--accent-cyan);
-  text-shadow: 0 0 4px rgba(0, 240, 255, 0.4);
 }
 
 .terminal-line.warning-line {
   color: var(--accent-magenta);
-  text-shadow: 0 0 4px rgba(255, 0, 127, 0.4);
 }
 
 .terminal-line.error-line {
   color: #ff3333;
-  text-shadow: 0 0 4px rgba(255, 51, 51, 0.4);
 }
 
 .terminal-line.input-echo {
@@ -186,7 +181,6 @@
   font-family: inherit;
   font-size: inherit;
   color: #33ff33;
-  text-shadow: 0 0 4px rgba(51, 255, 51, 0.35);
   caret-color: #33ff33;
 }
 
@@ -307,7 +301,6 @@
   font-size: 20px;
   font-weight: 900;
   letter-spacing: 1.5px;
-  text-shadow: 0 0 10px rgba(255, 255, 255, 0.2);
 }
 
 .planet-stat-grid {
@@ -387,7 +380,6 @@
 
 .scanner-btn:hover:not(:disabled) {
   background: rgba(0, 240, 255, 0.08);
-  box-shadow: 0 0 10px rgba(0, 240, 255, 0.2);
 }
 
 .scanner-btn:disabled {

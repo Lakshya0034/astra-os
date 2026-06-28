@@ -214,11 +214,6 @@ function loadFallbackBackground() {
 }
 
 document.addEventListener('DOMContentLoaded', () => {
-  // Initialize Background
-  if (window.System && window.System.initBackground) {
-    window.System.initBackground('bg-canvas');
-  }
-
   // Load NASA APOD Desktop Background
   loadNasaApod();
 
@@ -313,16 +308,66 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
+  // Helper to show a tooltip above a shortcut icon
+  const showTooltip = (targetEl, message) => {
+    // Remove any existing tooltips
+    const existingTooltip = document.querySelector('.shortcut-tooltip');
+    if (existingTooltip) {
+      existingTooltip.remove();
+    }
+
+    const tooltip = document.createElement('div');
+    tooltip.className = 'shortcut-tooltip';
+    tooltip.textContent = message;
+    document.body.appendChild(tooltip);
+
+    const rect = targetEl.getBoundingClientRect();
+    
+    // Position it centered horizontally and 8px above the shortcut icon
+    tooltip.style.left = (rect.left + rect.width / 2) + 'px';
+    tooltip.style.top = (rect.top - 8) + 'px';
+
+    // Fade out and remove
+    setTimeout(() => {
+      tooltip.classList.add('fade-out');
+      setTimeout(() => {
+        tooltip.remove();
+      }, 300);
+    }, 2000);
+  };
+
   // Desktop Shortcut Handlers
   const bindShortcut = (elemId, openFn) => {
     const el = document.getElementById(elemId);
     if (el) {
-      el.addEventListener('dblclick', openFn);
-      // Touch support or fallback single click with a delay/hint if user prefers:
+      let clickTimeout = null;
+
+      el.addEventListener('dblclick', (e) => {
+        if (clickTimeout) {
+          clearTimeout(clickTimeout);
+          clickTimeout = null;
+        }
+        const existingTooltip = document.querySelector('.shortcut-tooltip');
+        if (existingTooltip) {
+          existingTooltip.remove();
+        }
+        openFn(e);
+      });
+
       el.addEventListener('click', (e) => {
         // Highlight effect
         document.querySelectorAll('.shortcut-icon').forEach(x => x.classList.remove('selected'));
         el.classList.add('selected');
+
+        if (clickTimeout) {
+          clearTimeout(clickTimeout);
+          clickTimeout = null;
+        } else {
+          clickTimeout = setTimeout(() => {
+            showTooltip(el, 'Double click to open');
+            clickTimeout = null;
+          }, 250);
+        }
       });
     }
   };

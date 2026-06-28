@@ -8,7 +8,7 @@
   backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
   border: 1px solid var(--glass-border);
-  box-shadow: var(--glass-shadow), 0 0 20px rgba(0, 240, 255, 0.05);
+  box-shadow: var(--glass-shadow);
   border-radius: 8px;
   display: none;
   flex-direction: column;
@@ -19,7 +19,7 @@
 
 .window.active-window {
   border-color: rgba(0, 240, 255, 0.4);
-  box-shadow: var(--glass-shadow), 0 0 30px rgba(0, 240, 255, 0.15);
+  box-shadow: var(--glass-shadow);
 }
 
 .window.maximized {
@@ -73,17 +73,14 @@
 
 .control-close {
   background: var(--accent-magenta);
-  box-shadow: 0 0 6px var(--accent-magenta);
 }
 
 .control-minimize {
   background: #ffaa00;
-  box-shadow: 0 0 6px #ffaa00;
 }
 
 .control-maximize {
   background: #00ff66;
-  box-shadow: 0 0 6px #00ff66;
 }
 
 .window-body {
